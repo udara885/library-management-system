@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./backend/build && tsc",
+    "build": "rimraf ./build && tsc",
     "dev": "nodemon",
-    "start": "npm run build && node ./backend/build/server.js",
+    "start": "npm run build && node ./build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
