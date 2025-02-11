@@ -4,6 +4,6 @@ export type Book = {
 	author: string
 	category: string
 	image: string
-	publicationYear: number
+	publicationYear: string
 	description?: string
 }
