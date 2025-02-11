@@ -11,6 +11,22 @@ export const getBooks = async (req: any, res: any) => {
 	}
 }
 
+export const getBook = async (req: any, res: any) => {
+	const { id } = req.params
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res
+			.status(404)
+			.json({ success: false, message: "Invalid ID type" })
+	}
+	try {
+		const book = await Book.findById(id)
+		res.status(200).json({ success: true, data: book })
+	} catch (error: any) {
+		console.error(`Error in getBook: ${error.message}`)
+		res.status(500).json({ success: false, message: "Server Error" })
+	}
+}
+
 export const addBook = async (req: any, res: any) => {
 	const book = req.body
 
@@ -44,7 +60,7 @@ export const updateBook = async (req: any, res: any) => {
 	if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res
 			.status(404)
-			.json({ success: false, message: "Invalid Book ID" })
+			.json({ success: false, message: "Invalid ID type" })
 	}
 
 	try {
@@ -64,7 +80,7 @@ export const deleteBook = async (req: any, res: any) => {
 	if (!mongoose.Types.ObjectId.isValid(id)) {
 		return res
 			.status(404)
-			.json({ success: false, message: "Invalid Book ID" })
+			.json({ success: false, message: "Invalid ID type" })
 	}
 
 	try {
