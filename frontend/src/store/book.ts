@@ -6,7 +6,10 @@ type BookState = {
 	setBooks: (books: Book[]) => void
 	addBook: (newBook: Book) => Promise<{ success: boolean; message: string }>
 	getBooks: () => void
-	getBook: (id: string) => Book | undefined
+	getBook: (id: string) => Promise<{
+		success: boolean
+		data: Book
+	}>
 	updateBook: (
 		id: string,
 		updatedBook: Book
@@ -20,7 +23,7 @@ type BookState = {
 	}>
 }
 
-export const useBookStore = create<BookState>((set, get) => ({
+export const useBookStore = create<BookState>((set) => ({
 	books: [],
 	setBooks: (books) => set({ books }),
 	getBooks: async () => {
@@ -28,8 +31,10 @@ export const useBookStore = create<BookState>((set, get) => ({
 		const data = await res.json()
 		set({ books: data.data })
 	},
-	getBook: (id) => {
-		return get().books.find((book) => book._id === id)
+	getBook: async (id) => {
+		const res = await fetch(`/api/book/${id}`)
+		const data = await res.json()
+		return {success: true, data: data.data}
 	},
 	addBook: async (newBook) => {
 		const res = await fetch("/api/add-book", {
