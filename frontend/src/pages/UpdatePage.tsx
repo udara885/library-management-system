@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 import { useBookStore } from "../store/book"
 import toast from "react-hot-toast"
 import { useNavigate, useParams } from "react-router"
@@ -13,17 +13,30 @@ const UpdatePage = () => {
 
 	const { updateBook, getBook } = useBookStore()
 
-	const book = getBook(id)
+	const [updatedBook, setUpdatedBook] = useState<Book>({
+		title: "",
+		author: "",
+		category: "",
+		image: "",
+		publicationYear: "",
+		description: "",
+	})
 
-	const [updatedBook, setUpdatedBook] = useState(book)
-
-	if (!updatedBook) {
-		throw new Error("updatedBook is undefined")
-	}
+	useEffect(() => {
+		const fetchBook = async () => {
+			const { data } = await getBook(id)
+			setUpdatedBook(data)
+		}
+		fetchBook()
+	}, [getBook, id])
 
 	const navigate = useNavigate()
 
-	const handleSubmit = async (e: MouseEvent<HTMLButtonElement>, id:string, updatedBook:Book) => {
+	const handleSubmit = async (
+		e: MouseEvent<HTMLButtonElement>,
+		id: string,
+		updatedBook: Book
+	) => {
 		e.preventDefault()
 		const { success, message } = await updateBook(id, updatedBook)
 		if (!success) {
