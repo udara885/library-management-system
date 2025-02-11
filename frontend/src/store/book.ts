@@ -44,7 +44,7 @@ export const useBookStore = create<BookState>((set, get) => ({
 		return { success: true, message: "Book added successfully" }
 	},
 	updateBook: async (id, updatedBook) => {
-		const res = await fetch(`api/update-book/${id}`, {
+		const res = await fetch(`/api/update-book/${id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
