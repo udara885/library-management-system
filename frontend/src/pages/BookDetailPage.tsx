@@ -1,21 +1,30 @@
 import { useNavigate, useParams } from "react-router"
 import { useBookStore } from "../store/book"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { BookUp, BookX } from "lucide-react"
 import { Link } from "react-router"
 import { AdminContext } from "../context/adminContext"
 import toast from "react-hot-toast"
+import { Book } from "../types/types"
 
 const BookDetailPage = () => {
 	const { id } = useParams()
 
 	const { getBook, deleteBook } = useBookStore()
 
+	const [book, setBook] = useState<Book>()
+
 	if (!id) {
 		throw new Error("id is undefined")
 	}
 
-	const book = getBook(id)
+	useEffect(() => {
+		const fetchBook = async () => {
+			const { data } = await getBook(id)
+			setBook(data)
+		}
+		fetchBook()
+	}, [getBook, id])
 
 	const adminContext = useContext(AdminContext)
 
