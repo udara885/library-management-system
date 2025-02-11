@@ -2,9 +2,10 @@ import { MouseEvent, useState } from "react"
 import { useBookStore } from "../store/book"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router"
+import { Book } from "../types/types"
 
 const AddPage = () => {
-	const [newBook, setNewBook] = useState({
+	const [newBook, setNewBook] = useState<Book>({
 		title: "",
 		author: "",
 		category: "",
