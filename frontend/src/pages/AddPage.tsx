@@ -18,31 +18,29 @@ const AddPage = () => {
 
 	const { addBook } = useBookStore()
 
-  const handleSubmit = async ( e:MouseEvent<HTMLButtonElement> ) =>
-  {
-    e.preventDefault()
+	const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault()
 		const { success, message } = await addBook(newBook)
 		if (!success) {
 			toast.error(message)
 		} else {
 			toast.success(message)
 			navigate("/admin")
+			setNewBook({
+				title: "",
+				author: "",
+				category: "",
+				image: "",
+				publicationYear: "",
+				description: "",
+			})
 		}
-		setNewBook({
-			title: "",
-			author: "",
-			category: "",
-			image: "",
-			publicationYear: "",
-			description: "",
-		})
-  }
-  
-  const handleClose = ( e: MouseEvent<HTMLButtonElement> ) =>
-  {
-    e.preventDefault()
+	}
+
+	const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault()
 		navigate("/admin")
-  }
+	}
 
 	return (
 		<div className="max-w-screen-sm flex flex-col mx-auto gap-5 p-5">
