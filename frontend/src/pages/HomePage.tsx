@@ -42,7 +42,7 @@ const HomePage = () => {
 					<div className="relative flex items-center justify-center w-[50%] mx-auto">
 						<input
 							type="text"
-							className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none"
+							className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center"
 							placeholder="Search Books"
 							value={searchItem}
 							onChange={handleInputChange}
