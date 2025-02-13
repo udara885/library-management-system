@@ -64,7 +64,7 @@ const UpdatePage = () => {
 			) : (
 				<div className="max-w-screen-sm flex flex-col mx-auto gap-5 p-5">
 					<h1 className="font-bold text-gray-200 text-xl md:text-2xl text-center">
-						Add New Book
+						Update Book
 					</h1>
 					<form className="flex flex-col w-full gap-5">
 						<input
