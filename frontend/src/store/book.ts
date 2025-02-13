@@ -36,7 +36,12 @@ export const useBookStore = create<BookState>((set) => ({
 		const data = await res.json()
 		return {success: true, data: data.data}
 	},
-	addBook: async (newBook) => {
+	addBook: async ( newBook ) =>
+	{
+		if ( !newBook.author || !newBook.category || !newBook.image || !newBook.publicationYear || !newBook.title )
+		{
+			return {success: false, message: "Please fill out all fields"}
+		}
 		const res = await fetch("/api/add-book", {
 			method: "POST",
 			headers: {
