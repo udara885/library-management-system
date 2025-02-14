@@ -1,4 +1,4 @@
-import { BookPlus, CircleUserRound, LogOut } from "lucide-react"
+import { BookPlus, CircleUserRound, LogOut, UserPlus } from "lucide-react"
 import { Link } from "react-router"
 import { AdminContext } from "../context/adminContext"
 import { useContext } from "react"
@@ -19,11 +19,18 @@ const Navbar = () => {
 				</Link>
 				<div className="flex gap-2 items-center">
 					{isAdmin && (
-						<Link to="/admin/add-book">
-							<button className="border-gray-600 border p-1 md:p-2 rounded-lg font-semibold cursor-pointer">
-								<BookPlus />
-							</button>
-						</Link>
+						<div className="flex gap-2">
+							<Link to="/admin/add-book">
+								<button className="border-gray-600 border p-1 md:p-2 rounded-lg font-semibold cursor-pointer">
+									<BookPlus />
+								</button>
+							</Link>
+							<Link to="/admin/add-member">
+								<button className="border-gray-600 border p-1 md:p-2 rounded-lg font-semibold cursor-pointer">
+									<UserPlus />
+								</button>
+							</Link>
+						</div>
 					)}
 					<Link to={`${isAdmin ? "/" : "/admin"}`}>
 						<button
