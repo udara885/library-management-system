@@ -8,12 +8,16 @@ import UpdatePage from "./pages/UpdatePage"
 import BookDetailPage from "./pages/BookDetailPage"
 import { AdminContext } from "./context/adminContext"
 import { Toaster } from "react-hot-toast"
+import RentPage from "./pages/RentPage"
+import AddMemberPage from "./pages/AddMemberPage"
+import UpdateMemberPage from "./pages/UpdateMemberPage"
+import UpdateRentPage from "./pages/UpdateRentPage"
 
 function App() {
-	const [ isAdmin, setIsAdmin ] = useState( false )
+	const [isAdmin, setIsAdmin] = useState(false)
 
 	const location = useLocation()
-	
+
 	useEffect(() => {
 		if (location.pathname === "/admin") {
 			setIsAdmin(true)
@@ -22,8 +26,8 @@ function App() {
 
 	return (
 		<div className="bg-gray-900 min-h-screen">
-			<AdminContext.Provider value={ { isAdmin, setIsAdmin } }>
-				<Toaster/>
+			<AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
+				<Toaster />
 				<Navbar />
 				<Routes>
 					<Route
@@ -47,12 +51,28 @@ function App() {
 							element={<AddPage />}
 						/>
 						<Route
+							path="rent-book"
+							element={<RentPage />}
+						/>
+						<Route
+							path="update-rent/:id"
+							element={<UpdateRentPage />}
+						/>
+						<Route
 							path="update-book/:id"
 							element={<UpdatePage />}
 						/>
 						<Route
 							path="book/:id"
 							element={<BookDetailPage />}
+						/>
+						<Route
+							path="add-member"
+							element={<AddMemberPage />}
+						/>
+						<Route
+							path="update-member/:id"
+							element={<UpdateMemberPage />}
 						/>
 					</Route>
 				</Routes>
