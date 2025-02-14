@@ -39,7 +39,7 @@ const HomePage = () => {
 				<Loader />
 			) : (
 				<div>
-					<div className="relative flex items-center justify-center w-[50%] mx-auto">
+					<div className="relative flex items-center justify-center sm:w-[50%] mx-10  sm:mx-auto">
 						<input
 							type="text"
 							className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center"
