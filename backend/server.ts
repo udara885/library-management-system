@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import { connectDB } from "./config/db"
 import bookRoutes from "./routes/book.routes"
+import rentRoutes from "./routes/rent.routes"
+import memberRoutes from "./routes/member.routes"
 
 dotenv.config()
 
@@ -16,7 +18,7 @@ app.use( "/api/test", ( req, res ) =>
 	res.status(200).json({message: "API is working"})
 })
 
-app.use("/api", bookRoutes)
+app.use("/api", bookRoutes, rentRoutes, memberRoutes)
 
 app.listen( PORT, () =>
 {
