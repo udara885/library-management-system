@@ -12,8 +12,8 @@ export type Rent = {
 	_id?: string
 	memberId: string
 	bookId: string
-	fromDate: Date
-	toDate: Date
+	fromDate: string
+	toDate: string
 }
 
 export type Member = {
