@@ -91,7 +91,7 @@ const BookDetailPage = () => {
 										<Link
 											to={`/admin/update-book/${book?._id}`}
 										>
-											<button className="p-2 bg-blue-400 rounded-lg font-bold text-gray-900 flex items-center justify-center cursor-pointer w-full">
+											<button className="p-2 bg-blue-400 rounded-lg font-bold text-gray-900 flex items-center justify-center cursor-pointer w-full gap-1">
 												<BookUp />
 												Update
 											</button>
@@ -99,7 +99,7 @@ const BookDetailPage = () => {
 									</div>
 									<div className="w-1/2">
 										<button
-											className="p-2 bg-red-400 rounded-lg font-bold text-gray-900 flex items-center justify-center cursor-pointer w-full"
+											className="p-2 bg-red-400 rounded-lg font-bold text-gray-900 flex items-center justify-center cursor-pointer w-full gap-1"
 											onClick={() =>
 												handleDelete(book?._id)
 											}
