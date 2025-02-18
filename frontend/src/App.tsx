@@ -12,9 +12,12 @@ import RentPage from "./pages/RentPage"
 import AddMemberPage from "./pages/AddMemberPage"
 import UpdateMemberPage from "./pages/UpdateMemberPage"
 import UpdateRentPage from "./pages/UpdateRentPage"
+import { SidebarContext } from "./context/sidebarContext"
 
 function App() {
-	const [isAdmin, setIsAdmin] = useState(false)
+	const [ isAdmin, setIsAdmin ] = useState( false )
+	
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
 	const location = useLocation()
 
@@ -27,55 +30,57 @@ function App() {
 	return (
 		<div className="bg-gray-900 min-h-screen">
 			<AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-				<Toaster />
-				<Navbar />
-				<Routes>
-					<Route
-						path="/"
-						element={<HomePage />}
-					/>
-					<Route
-						path="/book/:id"
-						element={<BookDetailPage />}
-					/>
-					<Route
-						path="/admin"
-						element={<AdminPage />}
-					>
+				<SidebarContext.Provider value={{isSidebarOpen,setIsSidebarOpen}}>
+					<Toaster />
+					<Navbar />
+					<Routes>
 						<Route
-							index
+							path="/"
 							element={<HomePage />}
 						/>
 						<Route
-							path="add-book"
-							element={<AddPage />}
-						/>
-						<Route
-							path="rent-book"
-							element={<RentPage />}
-						/>
-						<Route
-							path="update-rent/:id"
-							element={<UpdateRentPage />}
-						/>
-						<Route
-							path="update-book/:id"
-							element={<UpdatePage />}
-						/>
-						<Route
-							path="book/:id"
+							path="/book/:id"
 							element={<BookDetailPage />}
 						/>
 						<Route
-							path="add-member"
-							element={<AddMemberPage />}
-						/>
-						<Route
-							path="update-member/:id"
-							element={<UpdateMemberPage />}
-						/>
-					</Route>
-				</Routes>
+							path="/admin"
+							element={<AdminPage />}
+						>
+							<Route
+								index
+								element={<HomePage />}
+							/>
+							<Route
+								path="add-book"
+								element={<AddPage />}
+							/>
+							<Route
+								path="rent-book"
+								element={<RentPage />}
+							/>
+							<Route
+								path="update-rent/:id"
+								element={<UpdateRentPage />}
+							/>
+							<Route
+								path="update-book/:id"
+								element={<UpdatePage />}
+							/>
+							<Route
+								path="book/:id"
+								element={<BookDetailPage />}
+							/>
+							<Route
+								path="add-member"
+								element={<AddMemberPage />}
+							/>
+							<Route
+								path="update-member/:id"
+								element={<UpdateMemberPage />}
+							/>
+						</Route>
+					</Routes>
+				</SidebarContext.Provider>
 			</AdminContext.Provider>
 		</div>
 	)
