@@ -9,7 +9,7 @@ const BookCard = ({ book }: { book: Book }) => {
 		>
 			<Link to={`book/${book._id}`}>
 				<img
-					className="!w-40 !h-55"
+					className="!w-45 !h-60"
 					src={book.image}
 					alt={book.title}
 				/>
