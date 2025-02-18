@@ -24,10 +24,10 @@ const AdminSidebar = ({ setView }: { setView: (view: number) => void }) => {
 	return (
 		<div className="w-1/2 text-gray-200 bg-gray-800 fixed top-0 left-0 z-50 h-full flex flex-col items-center">
 			<span className="w-full flex justify-end p-4 cursor-pointer" onClick={() => setIsSidebarOpen(false)}>
-				<X />
+				<X size={30}/>
 			</span>
 			<h1 className="text-2xl md:text-3xl font-semibold py-10">Menu</h1>
-			<ul className="flex flex-col gap-7 md:gap-10 text-xl md:text-3xl font-semibold px-10 py-4">
+			<ul className="flex flex-col gap-7 md:gap-10 text-xl md:text-2xl font-semibold px-10 py-4">
 				<li
 					className="flex gap-3 cursor-pointer items-center"
 					onClick={() => setView(1)}
