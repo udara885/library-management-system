@@ -22,7 +22,7 @@ const AddMemberPage = () => {
 			toast.error(message)
 		} else {
 			toast.success(message)
-			navigate("/admin")
+			navigate(-1)
 			setNewMember({
 				name: "",
 				email: "",
@@ -33,7 +33,7 @@ const AddMemberPage = () => {
 
 	const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
-		navigate("/admin")
+		navigate(-1)
 	}
 
 	return (
