@@ -8,15 +8,18 @@ import UpdatePage from "./pages/UpdatePage"
 import BookDetailPage from "./pages/BookDetailPage"
 import { AdminContext } from "./context/adminContext"
 import { Toaster } from "react-hot-toast"
-import RentPage from "./pages/RentPage"
 import AddMemberPage from "./pages/AddMemberPage"
 import UpdateMemberPage from "./pages/UpdateMemberPage"
 import UpdateRentPage from "./pages/UpdateRentPage"
 import { SidebarContext } from "./context/sidebarContext"
+import MemberPage from "./pages/MemberPage"
+import AdminSidebar from "./components/AdminSidebar"
+import AddRentPage from "./pages/AddRentPage"
+import RentPage from "./pages/RentPage"
 
 function App() {
-	const [ isAdmin, setIsAdmin ] = useState( false )
-	
+	const [isAdmin, setIsAdmin] = useState(false)
+
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
 	const location = useLocation()
@@ -30,9 +33,12 @@ function App() {
 	return (
 		<div className="bg-gray-900 min-h-screen">
 			<AdminContext.Provider value={{ isAdmin, setIsAdmin }}>
-				<SidebarContext.Provider value={{isSidebarOpen,setIsSidebarOpen}}>
+				<SidebarContext.Provider
+					value={{ isSidebarOpen, setIsSidebarOpen }}
+				>
 					<Toaster />
 					<Navbar />
+					{isAdmin && isSidebarOpen && <AdminSidebar />}
 					<Routes>
 						<Route
 							path="/"
@@ -51,12 +57,24 @@ function App() {
 								element={<HomePage />}
 							/>
 							<Route
+								path="books"
+								element={<HomePage />}
+							/>
+							<Route
+								path="members"
+								element={<MemberPage />}
+							/>
+							<Route
+								path="rents"
+								element={<RentPage />}
+							/>
+							<Route
 								path="add-book"
 								element={<AddPage />}
 							/>
 							<Route
 								path="rent-book"
-								element={<RentPage />}
+								element={<AddRentPage />}
 							/>
 							<Route
 								path="update-rent/:id"
