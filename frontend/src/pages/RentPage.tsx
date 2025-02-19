@@ -1,156 +1,89 @@
-import { MouseEvent, useEffect, useState } from "react"
-import { useRentStore } from "../store/rent"
-import toast from "react-hot-toast"
-import { useNavigate } from "react-router"
+import { useContext, useEffect, useState } from "react"
 import { Rent } from "../types/types"
-import { useBookStore } from "../store/book"
-import { useMemberStore } from "../store/member"
+import { CirclePlus, Search } from "lucide-react"
+import { Link } from "react-router"
 import Loader from "../components/Loader"
+import { AdminContext } from "../context/adminContext"
+import { useRentStore } from "../store/rent"
+import RentTable from "../components/RentTable"
 
 const RentPage = () => {
-	const [newRent, setNewRent] = useState<Rent>({
-		memberId: "",
-		bookId: "",
-		fromDate: "",
-		toDate: "",
-	})
-	const { getBooks, books } = useBookStore()
-	const { members, getMembers } = useMemberStore()
+	const { getRents, rents } = useRentStore()
+
+	const [searchItem, setSearchItem] = useState("")
+
+	const [filteredRents, setFilteredRents] = useState<Rent[]>()
+
 	const [loading, setLoading] = useState(true)
+
+	const adminContext = useContext(AdminContext)
+
+	if (!adminContext) {
+		throw new Error("adminContext is undefined")
+	}
+
+	const { isAdmin } = adminContext
+
+	const handleInputChange = (e: { target: { value: string } }) => {
+		const searchTerm = e.target.value
+		setSearchItem(searchTerm)
+		const filteredMembers = rents.filter((rent) =>
+			rent.bookId.toLowerCase().includes(searchTerm.toLowerCase())
+		)
+		setFilteredRents(filteredMembers)
+	}
 
 	useEffect(() => {
 		const fetchBooks = async () => {
 			setLoading(true)
-			await getMembers()
-			await getBooks()
+			await getRents()
 			setLoading(false)
 		}
 		fetchBooks()
-	}, [getBooks, getMembers])
+	}, [getRents])
 
-	const navigate = useNavigate()
-
-	const { addRent } = useRentStore()
-
-	const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
-		const { success, message } = await addRent(newRent)
-		if (!success) {
-			toast.error(message)
-		} else {
-			toast.success(message)
-			navigate("/admin")
-			setNewRent({
-				memberId: "",
-				bookId: "",
-				fromDate: "",
-				toDate: "",
-			})
-		}
-	}
-
-	const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
-		navigate("/admin")
-	}
+	useEffect(() => {
+		setFilteredRents(rents)
+	}, [rents])
 
 	return (
-		<div className="max-w-screen-sm flex flex-col mx-auto gap-5 p-5">
+		<div className="py-5 max-w-screen-xl mx-auto">
 			{loading ? (
 				<Loader />
 			) : (
-				<div>
-					<h1 className="font-bold text-gray-200 text-xl md:text-2xl text-center mb-5">
-						Rent a Book
-					</h1>
-					<form className="flex flex-col w-full gap-5">
-						<select
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							name="memberId"
-							value={newRent.memberId}
-							onChange={(e) => {
-								setNewRent({
-									...newRent,
-									memberId: e.target.value,
-								})
-							}}
-						>
-							<option className="bg-gray-900">
-								Select Member
-							</option>
-							{members.map((member) => (
-								<option
-									className="bg-gray-900"
-									value={member._id}
-									key={member._id}
-								>
-									{member.name}
-								</option>
-							))}
-						</select>
-						<select
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							name="bookId"
-							value={newRent.bookId}
-							onChange={(e) => {
-								setNewRent({
-									...newRent,
-									bookId: e.target.value,
-								})
-							}}
-						>
-							<option className="bg-gray-900">Select Book</option>
-							{books.map((book) => (
-								<option
-									className="bg-gray-900"
-									value={book._id}
-									key={book._id}
-								>
-									{book.title}
-								</option>
-							))}
-						</select>
-						<input
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							placeholder="From Date"
-							type="date"
-							name="fromDate"
-							value={newRent.fromDate}
-							onChange={(e) => {
-								const date = new Date(e.target.value)
-								setNewRent({
-									...newRent,
-									fromDate: date.toISOString().split("T")[0],
-								})
-							}}
-						/>
-						<input
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							placeholder="Image URL"
-							type="date"
-							name="toDate"
-							value={newRent.toDate}
-							onChange={(e) => {
-								const date = new Date(e.target.value)
-								setNewRent({
-									...newRent,
-									toDate: date.toISOString().split("T")[0],
-								})
-							}}
-						/>
-						<button
-							className="bg-blue-400 font-bold rounded p-2 md:text-lg cursor-pointer"
-							onClick={handleSubmit}
-						>
-							Submit
-						</button>
-						<button
-							className="border border-blue-400 text-blue-400 font-bold rounded p-2 md:text-lg cursor-pointer"
-							onClick={handleClose}
-						>
-							Cancel
-						</button>
-					</form>
+				<div className="flex flex-col items-center justify-center">
+					<div className="flex items-center justify-center gap-2 w-full">
+						<div className="relative w-[60%]">
+							<input
+								type="text"
+								className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center md:text-lg"
+								placeholder="Search Rents"
+								value={searchItem}
+								onChange={handleInputChange}
+							/>
+							<div className="absolute right-0 inset-y-0 pr-3 flex items-center justify-center text-gray-500 pointer-events-none">
+								<Search />
+							</div>
+						</div>
+
+						{isAdmin && (
+							<Link to={"/admin/rent-book"}>
+								<button className="bg-blue-400 px-5 py-2 rounded-full font-bold flex md:text-lg gap-1 items-center">
+									<CirclePlus />
+									Add
+								</button>
+							</Link>
+						)}
+					</div>
+					<div className="w-full p-5">
+						{filteredRents?.length !== 0 ? (
+								<RentTable filteredRents={filteredRents} />
+						) : (
+							<p className="text-gray-400 font-semibold text-lg flex justify-center">
+								No Rents found
+							</p>
+						)}
+					</div>
 				</div>
 			)}
 		</div>
