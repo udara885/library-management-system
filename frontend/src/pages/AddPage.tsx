@@ -25,7 +25,7 @@ const AddPage = () => {
 			toast.error(message)
 		} else {
 			toast.success(message)
-			navigate("/admin")
+			navigate(-1)
 			setNewBook({
 				title: "",
 				author: "",
@@ -39,7 +39,7 @@ const AddPage = () => {
 
 	const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
-		navigate("/admin")
+		navigate(-1)
 	}
 
 	return (
