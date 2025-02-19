@@ -19,25 +19,24 @@ const Navbar = () => {
 
 	const { isAdmin, setIsAdmin } = adminContext
 
-	const { isSidebarOpen, setIsSidebarOpen } = sidebarContext	
+	const { isSidebarOpen, setIsSidebarOpen } = sidebarContext
 
 	return (
 		<div className="p-5 border-b border-gray-800 max-w-screen-xl mx-auto flex justify-between text-gray-200">
-			<Link to={`${isAdmin ? "/admin" : "/"}`}>
-				<h1 className="font-bold text-2xl md:text-3xl flex items-center gap-2">
-					{isAdmin ? (
-						<div className="flex items-center gap-3">
-							<Menu
-								size={30}
-								onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-							/>
-							<div>Admin Dashboard</div>
-						</div>
-					) : (
-						"Home"
+			<h1 className="font-bold text-2xl md:text-3xl flex items-center gap-2">
+				<div className="flex items-center gap-3">
+					{isAdmin && (
+						<Menu
+							size={30}
+							onClick={ () => setIsSidebarOpen( !isSidebarOpen ) }
+							className="cursor-pointer"
+						/>
 					)}
-				</h1>
-			</Link>
+					<Link to={`${isAdmin ? "/admin" : "/"}`}>
+						<span>{isAdmin ? "Admin Dashboard" : "Home"}</span>
+					</Link>
+				</div>
+			</h1>
 			<div className="flex gap-2 items-center">
 				{!isAdmin && (
 					<Link to={"/admin"}>
