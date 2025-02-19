@@ -52,7 +52,7 @@ const BookDetailPage = () => {
 		} else {
 			toast.success(message)
 		}
-		navigate("/admin")
+		navigate("/admin/books")
 	}
 
 	return (
