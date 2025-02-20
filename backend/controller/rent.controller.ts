@@ -29,10 +29,18 @@ export const getRent = async (req: any, res: any) => {
 
 export const addRent = async (req: any, res: any) => {
 	const rent = req.body
+	const currentDate = new Date().getDate()	
 	if (!rent.memberId || !rent.bookId || !rent.fromDate || !rent.toDate) {
 		return res
 			.status(400)
 			.json({ success: false, message: "Please fill all the fields" })
+	}
+	const fromDate = new Date( rent.fromDate ).getDate()	
+	const toDate = new Date(rent.toDate).getDate()
+	if (fromDate < currentDate || toDate < currentDate) {
+		return res
+			.status(400)
+			.json({ success: false, message: "Dates cannot be in the past" })
 	}
 	const newRent = new Rent(rent)
 	try {
