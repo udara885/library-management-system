@@ -70,9 +70,23 @@ const BookDetailPage = () => {
 							/>
 						</div>
 						<div className="flex flex-col gap-5 text-gray-200 md:w-2/3">
-							<h1 className="text-3xl font-bold">
-								{book?.title}
-							</h1>
+							<div className="flex items-center justify-between">
+								<h1 className="text-3xl font-bold">
+									{book?.title}
+								</h1>
+								<div
+									className={`${
+										(book?.quantity ?? 0) > 0
+											? "bg-green-300 border-green-700 text-green-700"
+											: "bg-red-300 border-red-700 text-red-700"
+									} px-2 rounded-full border-2 font-bold`}
+								>
+									{(book?.quantity ?? 0) > 0
+										? "Available"
+										: "Not available"}
+								</div>
+							</div>
+
 							<h2 className="text-lg italic text-gray-400">
 								By {book?.author}
 							</h2>
