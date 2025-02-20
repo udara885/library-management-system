@@ -9,10 +9,16 @@ type MemberState = {
 		message: string
 	}>
 	getMembers: () => void
-	getMember: (id: string) => Promise<{
-		success: boolean
-		data: Member
-	}>
+	getMember: (id: string) => Promise<
+		| {
+				success: boolean
+				data: Member
+		  }
+		| {
+				success: boolean
+				message: string
+		  }
+	>
 	updateMember: (
 		id: string,
 		updatedMember: Member
@@ -32,17 +38,16 @@ export const useMemberStore = create<MemberState>((set) => ({
 	getMembers: async () => {
 		const res = await fetch("/api/members")
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		set({ members: data.data })
 	},
 	getMember: async (id) => {
 		const res = await fetch(`/api/member/${id}`)
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		return { success: true, data: data.data }
 	},
 	addMember: async (newMember) => {
-		if (!newMember.name || !newMember.email || !newMember.phone) {
-			return { success: false, message: "Please fill out all fields" }
-		}
 		const res = await fetch("/api/add-member", {
 			method: "POST",
 			headers: {
@@ -51,6 +56,7 @@ export const useMemberStore = create<MemberState>((set) => ({
 			body: JSON.stringify(newMember),
 		})
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		set((state) => ({ members: [...state.members, data.data] }))
 		return { success: true, message: "Member added successfully" }
 	},
