@@ -16,6 +16,10 @@ const rentSchema = new mongoose.Schema( {
   toDate: {
     type: String,
     require: true
+  },
+  status: {
+    type: String,
+    default: "Not returned"
   }
 } )
 
