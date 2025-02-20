@@ -9,10 +9,16 @@ type RentState = {
 		message: string
 	}>
 	getRents: () => void
-	getRent: (id: string) => Promise<{
-		success: boolean
-		data: Rent
-	}>
+	getRent: (id: string) => Promise<
+		| {
+				success: boolean
+				data: Rent
+		  }
+		| {
+				success: boolean
+				message: string
+		  }
+	>
 	updateRent: (
 		id: string,
 		updatedRent: Rent
@@ -32,22 +38,16 @@ export const useRentStore = create<RentState>((set) => ({
 	getRents: async () => {
 		const res = await fetch("/api/rents")
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		set({ rents: data.data })
 	},
 	getRent: async (id) => {
 		const res = await fetch(`/api/rent/${id}`)
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		return { success: true, data: data.data }
 	},
 	addRent: async (newRent) => {
-		if (
-			!newRent.memberId ||
-			!newRent.bookId ||
-			!newRent.fromDate ||
-			!newRent.toDate
-		) {
-			return { success: false, message: "Please fill out all fields" }
-		}
 		const res = await fetch("/api/add-rent", {
 			method: "POST",
 			headers: {
@@ -56,6 +56,7 @@ export const useRentStore = create<RentState>((set) => ({
 			body: JSON.stringify(newRent),
 		})
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		set((state) => ({ rents: [...state.rents, data.data] }))
 		return { success: true, message: "Book rented successfully" }
 	},
