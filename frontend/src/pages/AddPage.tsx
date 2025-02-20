@@ -12,6 +12,7 @@ const AddPage = () => {
 		image: "",
 		publicationYear: "",
 		description: "",
+		quantity: 0,
 	})
 
 	const navigate = useNavigate()
@@ -33,6 +34,7 @@ const AddPage = () => {
 				image: "",
 				publicationYear: "",
 				description: "",
+				quantity: 0,
 			})
 		}
 	}
@@ -110,6 +112,19 @@ const AddPage = () => {
 						setNewBook({
 							...newBook,
 							publicationYear: e.target.value,
+						})
+					}}
+				/>
+				<input
+					className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
+					placeholder="Quantity"
+					type="number"
+					name="quantity"
+					value={newBook.quantity}
+					onChange={(e) => {
+						setNewBook({
+							...newBook,
+							quantity: Number(e.target.value),
 						})
 					}}
 				/>
