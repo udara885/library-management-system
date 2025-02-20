@@ -27,19 +27,19 @@ const RentPage = () => {
 	const handleInputChange = (e: { target: { value: string } }) => {
 		const searchTerm = e.target.value
 		setSearchItem(searchTerm)
-		const filteredMembers = rents.filter((rent) =>
+		const filteredRents = rents.filter((rent) =>
 			rent.bookId.toLowerCase().includes(searchTerm.toLowerCase())
 		)
-		setFilteredRents(filteredMembers)
+		setFilteredRents(filteredRents)
 	}
 
 	useEffect(() => {
-		const fetchBooks = async () => {
+		const fetchRents = async () => {
 			setLoading(true)
 			await getRents()
 			setLoading(false)
 		}
-		fetchBooks()
+		fetchRents()
 	}, [getRents])
 
 	useEffect(() => {
@@ -53,7 +53,7 @@ const RentPage = () => {
 			) : (
 				<div className="flex flex-col items-center justify-center">
 					<div className="flex items-center justify-center gap-2 w-full">
-						<div className="relative w-[60%]">
+						<div className="relative w-[60%] sm:w-[50%]">
 							<input
 								type="text"
 								className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center md:text-lg"
