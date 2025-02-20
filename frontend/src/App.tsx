@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar"
 import { Route, Routes, useLocation } from "react-router"
-import HomePage from "./pages/HomePage"
 import AdminPage from "./pages/AdminPage"
 import { useEffect, useState } from "react"
 import AddPage from "./pages/AddPage"
@@ -16,6 +15,7 @@ import MemberPage from "./pages/MemberPage"
 import AdminSidebar from "./components/AdminSidebar"
 import AddRentPage from "./pages/AddRentPage"
 import RentPage from "./pages/RentPage"
+import BookPage from "./pages/BookPage"
 
 function App() {
 	const [isAdmin, setIsAdmin] = useState(false)
@@ -42,7 +42,7 @@ function App() {
 					<Routes>
 						<Route
 							path="/"
-							element={<HomePage />}
+							element={<BookPage />}
 						/>
 						<Route
 							path="/book/:id"
@@ -54,11 +54,11 @@ function App() {
 						>
 							<Route
 								index
-								element={<HomePage />}
+								element={<BookPage />}
 							/>
 							<Route
 								path="books"
-								element={<HomePage />}
+								element={<BookPage />}
 							/>
 							<Route
 								path="members"
