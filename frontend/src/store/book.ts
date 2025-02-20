@@ -9,10 +9,16 @@ type BookState = {
 		message: string
 	}>
 	getBooks: () => void
-	getBook: (id: string) => Promise<{
-		success: boolean
-		data: Book
-	}>
+	getBook: (id: string) => Promise<
+		 {
+				success: boolean
+				data: Book
+		  }
+		| {
+				success: boolean
+				message: string
+		  }
+	>
 	updateBook: (
 		id: string,
 		updatedBook: Book
@@ -32,23 +38,16 @@ export const useBookStore = create<BookState>((set) => ({
 	getBooks: async () => {
 		const res = await fetch("/api/books")
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		set({ books: data.data })
 	},
 	getBook: async (id) => {
 		const res = await fetch(`/api/book/${id}`)
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		return { success: true, data: data.data }
 	},
 	addBook: async (newBook) => {
-		if (
-			!newBook.author ||
-			!newBook.category ||
-			!newBook.image ||
-			!newBook.publicationYear ||
-			!newBook.title
-		) {
-			return { success: false, message: "Please fill out all fields" }
-		}
 		const res = await fetch("/api/add-book", {
 			method: "POST",
 			headers: {
@@ -57,6 +56,7 @@ export const useBookStore = create<BookState>((set) => ({
 			body: JSON.stringify(newBook),
 		})
 		const data = await res.json()
+		if (!data.success) return { success: false, message: data.message }
 		set((state) => ({ books: [...state.books, data.data] }))
 		return { success: true, message: "Book added successfully" }
 	},
