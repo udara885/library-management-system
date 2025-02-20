@@ -34,12 +34,12 @@ const BookPage = () => {
 	}
 
 	useEffect(() => {
-		const fetchBooks = async () => {
+		const fetchMembers = async () => {
 			setLoading(true)
 			await getMembers()
 			setLoading(false)
 		}
-		fetchBooks()
+		fetchMembers()
 	}, [getMembers])
 
 	useEffect(() => {
@@ -53,7 +53,7 @@ const BookPage = () => {
 			) : (
 				<div className="flex flex-col items-center justify-center">
 					<div className="flex items-center justify-center gap-2 w-full">
-						<div className="relative w-[50%]">
+						<div className="relative w-[60%] sm:w-[50%]">
 							<input
 								type="text"
 								className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center md:text-lg"
