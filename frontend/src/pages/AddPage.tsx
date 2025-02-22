@@ -12,7 +12,7 @@ const AddPage = () => {
 		image: "",
 		publicationYear: "",
 		description: "",
-		quantity: 0,
+		quantity: 1,
 	})
 
 	const navigate = useNavigate()
@@ -34,7 +34,7 @@ const AddPage = () => {
 				image: "",
 				publicationYear: "",
 				description: "",
-				quantity: 0,
+				quantity: 1,
 			})
 		}
 	}
