@@ -21,6 +21,7 @@ const UpdatePage = () => {
 		image: "",
 		publicationYear: "",
 		description: "",
+		quantity: 1,
 	})
 
 	const [loading, setLoading] = useState(true)
@@ -28,8 +29,12 @@ const UpdatePage = () => {
 	useEffect(() => {
 		const fetchBook = async () => {
 			setLoading(true)
-			const { data } = await getBook(id)
-			setUpdatedBook(data)
+			const res = await getBook(id)
+			if ('data' in res) {
+				setUpdatedBook(res.data)
+			} else {
+				toast.error(res.message)
+			}
 			setLoading(false)
 		}
 		fetchBook()
@@ -129,6 +134,19 @@ const UpdatePage = () => {
 								setUpdatedBook({
 									...updatedBook,
 									publicationYear: e.target.value,
+								})
+							}}
+						/>
+						<input
+							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
+							placeholder="Quantity"
+							type="number"
+							name="quantity"
+							value={updatedBook.quantity}
+							onChange={(e) => {
+								setUpdatedBook({
+									...updatedBook,
+									quantity: Number(e.target.value),
 								})
 							}}
 						/>
