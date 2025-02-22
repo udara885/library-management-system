@@ -11,12 +11,14 @@ const AddRentPage = () => {
 	const [newRent, setNewRent] = useState<Rent>({
 		memberId: "",
 		bookId: "",
-		fromDate: "",
-		toDate: "",
 	})
-	const { getBooks, books } = useBookStore()
+	const { getBooks, updateBook, getBook, books } = useBookStore()
+
 	const { members, getMembers } = useMemberStore()
+	
 	const [loading, setLoading] = useState(true)
+
+	const availableBooks = books.filter(book => book.quantity > 0)	
 
 	useEffect(() => {
 		const fetchBooks = async () => {
@@ -38,13 +40,18 @@ const AddRentPage = () => {
 		if (!success) {
 			toast.error(message)
 		} else {
+			const res = await getBook(newRent.bookId)
+			if ("data" in res) {
+				await updateBook(newRent.bookId, {
+					...res.data,
+					quantity: res.data.quantity - 1
+				})
+			}
 			toast.success(message)
 			navigate(-1)
 			setNewRent({
 				memberId: "",
 				bookId: "",
-				fromDate: "",
-				toDate: "",
 			})
 		}
 	}
@@ -100,7 +107,7 @@ const AddRentPage = () => {
 							}}
 						>
 							<option className="bg-gray-900">Select Book</option>
-							{books.map((book) => (
+							{availableBooks.map((book) => (
 								<option
 									className="bg-gray-900"
 									value={book._id}
@@ -110,34 +117,6 @@ const AddRentPage = () => {
 								</option>
 							))}
 						</select>
-						<input
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							placeholder="From Date"
-							type="date"
-							name="fromDate"
-							value={newRent.fromDate}
-							onChange={(e) => {
-								const date = new Date(e.target.value)
-								setNewRent({
-									...newRent,
-									fromDate: date.toISOString().split("T")[0],
-								})
-							}}
-						/>
-						<input
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							placeholder="Image URL"
-							type="date"
-							name="toDate"
-							value={newRent.toDate}
-							onChange={(e) => {
-								const date = new Date(e.target.value)
-								setNewRent({
-									...newRent,
-									toDate: date.toISOString().split("T")[0],
-								})
-							}}
-						/>
 						<button
 							className="bg-blue-400 font-bold rounded p-2 md:text-lg cursor-pointer"
 							onClick={handleSubmit}
