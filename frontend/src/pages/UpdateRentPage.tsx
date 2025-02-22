@@ -16,9 +16,7 @@ const UpdateRentPage = () => {
 
 	const [updatedRent, setUpdatedRent] = useState<Rent>({
 		memberId: "",
-		bookId: "",
-		fromDate: "",
-		toDate: "",
+		bookId: ""
 	})
 
   const [ loading, setLoading ] = useState( true )
@@ -30,14 +28,18 @@ const UpdateRentPage = () => {
     const { members, getMembers } = useMemberStore()
 
 	useEffect(() => {
-		const fetchRent = async () => {
-			setLoading(true)
-			const { data } = await getRent(id)
-      setUpdatedRent( data )
-      await getBooks()
-      await getMembers()
-			setLoading(false)
+	const fetchRent = async () => {
+		setLoading(true)
+		const res = await getRent(id)
+		if ('data' in res) {
+			setUpdatedRent(res.data)
+			await getBooks()
+			await getMembers()
+		} else {
+			toast.error(res.message)
 		}
+		setLoading(false)
+	}
 		fetchRent()
 	}, [getRent, id, getBooks, getMembers])
 
@@ -119,34 +121,6 @@ const UpdateRentPage = () => {
 								</option>
 							))}
 						</select>
-						<input
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							placeholder="From Date"
-							type="date"
-							name="fromDate"
-							value={updatedRent.fromDate}
-							onChange={(e) => {
-								const date = new Date(e.target.value)
-								setUpdatedRent({
-									...updatedRent,
-									fromDate: date.toISOString().split("T")[0],
-								})
-							}}
-						/>
-						<input
-							className="border border-gray-500 rounded text-white p-2 focus:border-blue-500 outline-none"
-							placeholder="Image URL"
-							type="date"
-							name="toDate"
-							value={updatedRent.toDate}
-							onChange={(e) => {
-								const date = new Date(e.target.value)
-								setUpdatedRent({
-									...updatedRent,
-									toDate: date.toISOString().split("T")[0],
-								})
-							}}
-						/>
 						<button
 							className="bg-blue-400 font-bold rounded p-2 md:text-lg cursor-pointer"
 							onClick={(e) => handleSubmit(e, id, updatedRent)}
