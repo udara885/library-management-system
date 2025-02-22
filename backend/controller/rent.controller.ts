@@ -29,18 +29,10 @@ export const getRent = async (req: any, res: any) => {
 
 export const addRent = async (req: any, res: any) => {
 	const rent = req.body
-	const currentDate = new Date().getDate()	
-	if (!rent.memberId || !rent.bookId || !rent.fromDate || !rent.toDate) {
+	if (!rent.memberId || !rent.bookId) {
 		return res
 			.status(400)
 			.json({ success: false, message: "Please fill all the fields" })
-	}
-	const fromDate = new Date( rent.fromDate ).getDate()	
-	const toDate = new Date(rent.toDate).getDate()
-	if (fromDate < currentDate || toDate < currentDate) {
-		return res
-			.status(400)
-			.json({ success: false, message: "Dates cannot be in the past" })
 	}
 	const newRent = new Rent(rent)
 	try {
@@ -48,7 +40,10 @@ export const addRent = async (req: any, res: any) => {
 		res.status(201).json({ success: true, data: newRent })
 	} catch (error: any) {
 		console.error(`Error in addRent: ${error.message}`)
-		res.status(500).json({ success: false, message: "Server Error" })
+		res.status(500).json({
+			success: false,
+			message: "Server Error",
+		})
 	}
 }
 
