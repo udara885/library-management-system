@@ -26,11 +26,8 @@ const bookSchema = new mongoose.Schema({
 	},
 	quantity: {
 		type: Number,
-		default:1,
-	},
-	status: {
-		type: String,
-		default: "Available"
+		default: 1,
+		require:true
 	}
 }, {
   timestamps: true
