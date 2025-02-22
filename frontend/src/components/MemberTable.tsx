@@ -51,7 +51,7 @@ const MemberTable = ({
 							className="hover:bg-gray-600 bg-gray-700 cursor-pointer"
 						>
 							<td className="p-4">
-								{member._id?.split("").slice(21)}
+								{member._id?.split("").slice(19)}
 							</td>
 							<td className="p-4">{member.name}</td>
 							<td className="p-4">{member.email}</td>
