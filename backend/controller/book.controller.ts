@@ -35,7 +35,8 @@ export const addBook = async (req: any, res: any) => {
 		!book.author ||
 		!book.category ||
 		!book.image ||
-		!book.publicationYear
+		!book.publicationYear ||
+		!book.quantity
 	) {
 		return res
 			.status(400)
