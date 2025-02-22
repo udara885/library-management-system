@@ -28,7 +28,7 @@ const BookPage = () => {
 		const searchTerm = e.target.value
 		setSearchItem(searchTerm)
 		const filteredMembers = members.filter((member) =>
-			member.name.toLowerCase().includes(searchTerm.toLowerCase())
+			member._id?.split("").splice(19).includes(searchTerm.toLowerCase())
 		)
 		setFilteredMembers(filteredMembers)
 	}
@@ -57,7 +57,7 @@ const BookPage = () => {
 							<input
 								type="text"
 								className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center md:text-lg"
-								placeholder="Search Members"
+								placeholder="Member ID"
 								value={searchItem}
 								onChange={handleInputChange}
 							/>
