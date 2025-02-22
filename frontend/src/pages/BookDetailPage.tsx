@@ -25,8 +25,12 @@ const BookDetailPage = () => {
 	useEffect(() => {
 		const fetchBook = async () => {
 			setLoading(true)
-			const { data } = await getBook(id)
-			setBook(data)
+			const res = await getBook(id)
+			if ('data' in res) {
+				setBook(res.data)
+			} else {
+				toast.error(res.message)
+			}
 			setLoading(false)
 		}
 		fetchBook()
@@ -62,7 +66,7 @@ const BookDetailPage = () => {
 			) : (
 				<div className="max-w-screen-xl mx-auto">
 					<GoBackBtn />
-					<div className="flex flex-col md:flex-row md:justify-between p-10 gap-5">
+					<div className="flex flex-col md:flex-row md:justify-between p-10 gap-10">
 						<div className="flex justify-center md:w-1/3">
 							<img
 								src={book?.image}
@@ -76,20 +80,20 @@ const BookDetailPage = () => {
 								</h1>
 								<div
 									className={`${
-										(book?.quantity ?? 0) > 0
+										book?.quantity && book?.quantity > 0
 											? "bg-green-300 border-green-700 text-green-700"
 											: "bg-red-300 border-red-700 text-red-700"
 									} px-2 rounded-full border-2 font-bold`}
 								>
-									{(book?.quantity ?? 0) > 0
+									{book?.quantity && book?.quantity > 0
 										? "Available"
 										: "Not available"}
 								</div>
 							</div>
-
 							<h2 className="text-lg italic text-gray-400">
 								By {book?.author}
-							</h2>
+								</h2>
+								<h2 className="text-lg">Book ID : {book?._id?.split("").splice(19)}</h2>
 							<h3 className="text-lg">
 								Category : {book?.category}
 							</h3>
