@@ -6,17 +6,16 @@ export type Book = {
 	image: string
 	publicationYear: string
 	description?: string
-	quantity?: number
-	status?: string
+	quantity: number
 }
 
 export type Rent = {
 	_id?: string
 	memberId: string
 	bookId: string
-	fromDate: string
-	toDate: string
-	status: string
+	fromDate?: string
+	toDate?: string
+	status?: string
 }
 
 export type Member = {
