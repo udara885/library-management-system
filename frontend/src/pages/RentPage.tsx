@@ -30,7 +30,7 @@ const RentPage = () => {
 		const filteredRents = rents.filter((rent) =>
 			rent.bookId.toLowerCase().includes(searchTerm.toLowerCase())
 		)
-		setFilteredRents(filteredRents)
+		setFilteredRents(filteredRents.reverse())
 	}
 
 	useEffect(() => {
@@ -43,7 +43,7 @@ const RentPage = () => {
 	}, [getRents])
 
 	useEffect(() => {
-		setFilteredRents(rents)
+		setFilteredRents(rents.reverse())
 	}, [rents])
 
 	return (
