@@ -74,7 +74,7 @@ const BookDetailPage = () => {
 							/>
 						</div>
 						<div className="flex flex-col gap-5 text-gray-200 md:w-2/3">
-							<div className="flex items-center justify-between">
+							<div className="flex items-center justify-between gap-3">
 								<h1 className="text-3xl font-bold">
 									{book?.title}
 								</h1>
