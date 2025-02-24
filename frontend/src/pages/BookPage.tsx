@@ -10,8 +10,6 @@ import { AdminContext } from '../context/adminContext'
 const BookPage = () => {
 	const { getBooks, books } = useBookStore()
 
-	const [searchItem, setSearchItem] = useState("")
-
 	const [filteredBooks, setFilteredBooks] = useState<Book[]>()
 
 	const [loading, setLoading] = useState(true)
@@ -27,7 +25,6 @@ const BookPage = () => {
 
 	const handleInputChange = (e: { target: { value: string } }) => {
 		const searchTerm = e.target.value
-		setSearchItem(searchTerm)
 		const filteredBooks = books.filter((book) =>
 			book.title.toLowerCase().includes(searchTerm.toLowerCase())
 		)
@@ -59,7 +56,6 @@ const BookPage = () => {
 								type="text"
 								className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center md:text-lg"
 								placeholder="Search Books"
-								value={searchItem}
 								onChange={handleInputChange}
 							/>
 							<div className="absolute right-0 inset-y-0 pr-3 flex items-center justify-center text-gray-500 pointer-events-none">
