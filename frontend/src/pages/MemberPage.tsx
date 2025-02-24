@@ -7,10 +7,8 @@ import { AdminContext } from "../context/adminContext"
 import { useMemberStore } from "../store/member"
 import MemberTable from "../components/MemberTable"
 
-const BookPage = () => {
+const MemberPage = () => {
 	const { getMembers, members } = useMemberStore()
-
-	const [searchItem, setSearchItem] = useState("")
 
 	const [filteredMembers, setFilteredMembers] = useState<Member[]>()
 
@@ -25,11 +23,15 @@ const BookPage = () => {
 	const { isAdmin } = adminContext
 
 	const handleInputChange = (e: { target: { value: string } }) => {
-		const searchTerm = e.target.value
-		setSearchItem(searchTerm)
-		const filteredMembers = members.filter((member) =>
-			member._id?.split("").splice(19).includes(searchTerm.toLowerCase())
-		)
+		const searchTerm = e.target.value.trim()
+		if (!searchTerm) {
+			setFilteredMembers(members)
+			return
+		}
+		const filteredMembers = members.filter((member) => {
+			if (!member.name) return false
+			return member.name.toLowerCase().includes(searchTerm.toLowerCase())
+		})
 		setFilteredMembers(filteredMembers)
 	}
 
@@ -57,8 +59,7 @@ const BookPage = () => {
 							<input
 								type="text"
 								className="border border-gray-500 rounded-full w-full text-gray-200 p-2 focus:border-blue-500 outline-none sm:text-center md:text-lg"
-								placeholder="Member ID"
-								value={searchItem}
+								placeholder="Member Name"
 								onChange={handleInputChange}
 							/>
 							<div className="absolute right-0 inset-y-0 pr-3 flex items-center justify-center text-gray-500 pointer-events-none">
@@ -75,8 +76,8 @@ const BookPage = () => {
 						)}
 					</div>
 					<div className="w-full p-5">
-						{filteredMembers?.length !== 0 ? (
-                <MemberTable filteredMembers={filteredMembers} />
+						{filteredMembers && filteredMembers.length > 0 ? (
+							<MemberTable filteredMembers={filteredMembers} />
 						) : (
 							<p className="text-gray-400 font-semibold text-lg flex justify-center">
 								No Members found
@@ -89,4 +90,4 @@ const BookPage = () => {
 	)
 }
 
-export default BookPage
+export default MemberPage
